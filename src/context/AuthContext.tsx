@@ -26,7 +26,29 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState<IUser>(false);
 
-  return <div>AuthContext</div>;
+  const checkAuthUser = async () => {
+    try {
+      const currentAccount = await getCurrentUser();
+    } catch (error) {
+      console.log(error);
+      return false;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const value = {
+    user,
+    setUser,
+    isLoading,
+    setIsLoading,
+    setIsAuthenticated,
+    checkAuthUser,
+  };
+
+  return (
+    <AuthContextt.Provider value={value}>{children}</AuthContextt.Provider>
+  );
 };
 
 export default AuthProvider;
