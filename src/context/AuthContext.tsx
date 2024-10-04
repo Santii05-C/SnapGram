@@ -67,7 +67,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     user,
     setUser,
     isLoading,
-    setIsLoading,
     isAuthenticated,
     setIsAuthenticated,
     checkAuthUser,
@@ -76,3 +75,5 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 };
 
 export default AuthProvider;
+
+export const useUserContext = () => useContext(AuthContext);
