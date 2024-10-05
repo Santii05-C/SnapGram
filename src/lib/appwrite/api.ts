@@ -35,7 +35,7 @@ export async function saveUserToDB(user: {
   accountId: string;
   email: string;
   name: string;
-  imageUrl: string;
+  imageUrl: URL;
   username?: string;
 }) {
   try {
@@ -45,7 +45,6 @@ export async function saveUserToDB(user: {
       ID.unique(),
       user
     );
-    console.log(appwriteConfig.userCollectionId);
     return newUser;
   } catch (error) {
     console.log(error);
@@ -92,4 +91,3 @@ export async function getCurrentUser() {
     return null;
   }
 }
-//2:05
