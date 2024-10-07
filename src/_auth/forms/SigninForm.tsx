@@ -127,3 +127,9 @@
 // };
 
 // export default SigninForm;
+
+const SigninForm = () => {
+  return <div>SigninForm</div>;
+};
+
+export default SigninForm;
