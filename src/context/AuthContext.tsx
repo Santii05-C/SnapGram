@@ -40,6 +40,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
 
   const checkAuthUser = async () => {
+    
     try {
       const currentAccount = await getCurrentUser();
 
@@ -58,7 +59,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
       return false;
     } catch (error) {
-      console.log(error);
+      console.log("Error while fetching current user:", error);
+      setIsAuthenticated(false);
       return false;
     } finally {
       setIsLoading(false);

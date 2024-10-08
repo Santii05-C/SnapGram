@@ -23,7 +23,7 @@ export async function createUserAccount(user: INewUser) {
       username: user.username,
       imageUrl: avatarUrl,
     });
-
+    //el error en imageUrl dice el tipo 'string' no se puede asignar al tipo 'URL'
     return newUser;
   } catch (error) {
     console.log(error);
@@ -54,10 +54,7 @@ export async function saveUserToDB(user: {
 
 export async function signInAccount(user: { email: string; password: string }) {
   try {
-    const session = await account.createEmailPasswordSession(
-      user.email,
-      user.password
-    );
+    const session = await account.createSession(user.email, user.password);
 
     return session;
   } catch (error) {
