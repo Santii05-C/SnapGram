@@ -14,7 +14,7 @@ export async function createUserAccount(user: INewUser) {
 
     if (!newAccount) throw Error;
 
-    const avatarUrl = avatars.getInitials(user.name);
+    const avatarUrl = new URL(avatars.getInitials(user.name));
 
     const newUser = await saveUserToDB({
       accountId: newAccount.$id,
@@ -23,7 +23,7 @@ export async function createUserAccount(user: INewUser) {
       username: user.username,
       imageUrl: avatarUrl,
     });
-    //el error en imageUrl dice el tipo 'string' no se puede asignar al tipo 'URL'
+
     return newUser;
   } catch (error) {
     console.log(error);
@@ -54,7 +54,10 @@ export async function saveUserToDB(user: {
 
 export async function signInAccount(user: { email: string; password: string }) {
   try {
-    const session = await account.createSession(user.email, user.password);
+    const session = await account.createEmailPasswordSession(
+      user.email,
+      user.password
+    );
 
     return session;
   } catch (error) {
@@ -62,9 +65,19 @@ export async function signInAccount(user: { email: string; password: string }) {
   }
 }
 
-export async function getCurrentUser() {
+export async function getAccount() {
   try {
     const currentAccount = await account.get();
+
+    return currentAccount;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getCurrentUser() {
+  try {
+    const currentAccount = await getAccount();
 
     if (!currentAccount) throw Error;
 
@@ -73,7 +86,6 @@ export async function getCurrentUser() {
       appwriteConfig.userCollectionId,
       [Query.equal("accountId", currentAccount.$id)]
     );
-
     if (!currentUser) throw Error;
 
     return currentUser.documents[0];
