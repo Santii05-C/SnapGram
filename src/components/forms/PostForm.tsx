@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "../ui/textarea";
+import FileUploader from "../shared/FileUploader";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -70,6 +71,20 @@ const PostForm = () => {
                 <FileUploader />
               </FormControl>
 
+              <FormMessage className="shad-form_message" />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="location"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="shad-form_label">Add Location</FormLabel>
+              <FormControl>
+                <Input type="text" className="shad-input" />
+              </FormControl>
+              //2:55:38
               <FormMessage className="shad-form_message" />
             </FormItem>
           )}
