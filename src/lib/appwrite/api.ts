@@ -142,6 +142,8 @@ export async function createPost(post: INewPost) {
       await deleteFile(uploadedFile.$id);
       throw Error;
     }
+
+    return newPost;
   } catch (error) {
     console.log(error);
   }
