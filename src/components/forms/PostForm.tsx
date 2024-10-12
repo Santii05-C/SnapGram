@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,19 +17,19 @@ import { Textarea } from "../ui/textarea";
 import FileUploader from "../shared/FileUploader";
 import { PostValidation } from "@/lib/validation";
 import { Models } from "appwrite";
-import { useUserContext } from "@/context/AuthContext";
-import { useToast } from "@/hooks/use-toast";
+// import { useUserContext } from "@/context/AuthContext";
+// import { useToast } from "@/hooks/use-toast";
 
 type PostFormProps = {
   post?: Models.Document;
 };
 
 const PostForm = ({ post }: PostFormProps) => {
-  const { mutateAsync: createPost, isPending: isLoadingCreate } =
-    useCreatePost();
-  const { user } = useUserContext();
-  const { toast } = useToast();
-  const navigate = useNavigate();
+  // const { mutateAsync: createPost, isPending: isLoadingCreate } =
+  // useCreatePost();
+  // const { user } = useUserContext();
+  // const { toast } = useToast();
+  // const navigate = useNavigate();
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof PostValidation>>({
@@ -43,18 +43,18 @@ const PostForm = ({ post }: PostFormProps) => {
   });
 
   // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof PostValidation>) {
-    const newPost = await createPost({
-      ...values,
-      userId: user.id,
-    });
+  // async function onSubmit(values: z.infer<typeof PostValidation>) {
+  //   const newPost = await createPost({
+  //     ...values,
+  //     userId: user.id,
+  //   });
 
-    if (!newPost) {
-      toast({ title: "Please try again" });
-    }
+  //   if (!newPost) {
+  //     toast({ title: "Please try again" });
+  //   }
 
-    navigate("/");
-  }
+  //   navigate("/");
+  // }
 
   return (
     <Form {...form}>
