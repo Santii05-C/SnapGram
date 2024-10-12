@@ -1,3 +1,5 @@
+import { useUserContext } from "@/context/AuthContext";
+import { formatDate } from "@/lib/utils";
 import { Models } from "appwrite";
 import { Link } from "react-router-dom";
 
@@ -6,6 +8,10 @@ type PostCardProps = {
 };
 
 const PostCard = ({ post }: PostCardProps) => {
+  const { user } = useUserContext();
+
+  if (!post.creator) return;
+
   return (
     <div className="post-card">
       <div className="flex-between">
@@ -27,7 +33,7 @@ const PostCard = ({ post }: PostCardProps) => {
             </p>
             <div className="flex-center gap-2 text-light-3">
               <p className="subtle-semibold lg:small-regular">
-                {post.$createdAt}
+                {formatDate(post.$createdAt)}
               </p>
               -
               <p className="subtle-semibold lg:small-regular ">
@@ -36,9 +42,16 @@ const PostCard = ({ post }: PostCardProps) => {
             </div>
           </div>
         </div>
+
+        <Link
+          to={`/update-post/${post.$id}`}
+          className={`${user.id !== post.creator.$id} && hidden`}
+        >
+          <img src="/assets/icons/edit.svg" alt="edit" width={20} height={20} />
+        </Link>
       </div>
     </div>
   );
 };
-
+//3:48:53
 export default PostCard;
