@@ -6,6 +6,7 @@ import {
   useSavePost,
 } from "@/lib/react-query/queriesAndMutations";
 import { Models } from "appwrite";
+import { checkIsLiked } from "@/lib/utils";
 
 type PostStatsProps = {
   post: Models.Document;
@@ -24,12 +25,20 @@ const PostStatus = ({ post, userId }: PostStatsProps) => {
 
   const { data: currentUser } = useUserContext();
 
-  //4:13
+  const handleLikePost = () => {};
+
+  const handleSavePost = () => {};
+
   return (
     <div className="flex justify-between items-center z-20">
       <div className="flex gap-2 mr-5">
         <img
-          src="/assets/icons/like.svg"
+          src={`${
+            checkIsLiked(likes, userId)
+              ? "/assets/icons/liked.svg"
+              : "/assets/icons/like.svg"
+          }
+            `}
           alt="like"
           width={20}
           height={20}
