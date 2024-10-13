@@ -2,6 +2,7 @@ import { Models } from "appwrite";
 
 type PostStatsProps = {
   post: Models.Document;
+  userId: string;
 };
 
 const PostStatus = ({ post, userId }: PostStatsProps) => {
