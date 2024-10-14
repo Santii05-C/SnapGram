@@ -6,6 +6,7 @@ import { Link, useParams } from "react-router-dom";
 const PostDetails = () => {
   const { id } = useParams();
   const { data: post, isPending } = useGetPostById(id || "");
+
   return (
     <div className="post_details-container">
       {isPending ? (
@@ -17,7 +18,10 @@ const PostDetails = () => {
             alt="creator"
             className="post_details-img"
           />
-          <div className="flex items-center gap-3">
+
+          <div className="post_details-info">
+            <div className="flex-between w-full"></div>
+
             <Link to={`/profile/${post?.creator.$id}`}>
               <img
                 src={
@@ -27,22 +31,22 @@ const PostDetails = () => {
                 alt="creator"
                 className="rounded-full w-12 lg:h-12"
               />
-            </Link>
 
-            <div className="flex flex-col">
-              <p className="base-medium lg:body-bold text-light-1">
-                {post?.creator.name}
-              </p>
-              <div className="flex-center gap-2 text-light-3">
-                <p className="subtle-semibold lg:small-regular">
-                  {formatDateString(post?.$createdAt)}
+              <div className="flex flex-col">
+                <p className="base-medium lg:body-bold text-light-1">
+                  {post?.creator.name}
                 </p>
-                -
-                <p className="subtle-semibold lg:small-regular ">
-                  {post?.location}
-                </p>
+                <div className="flex-center gap-2 text-light-3">
+                  <p className="subtle-semibold lg:small-regular">
+                    {formatDateString(post?.$createdAt)}
+                  </p>
+                  -
+                  <p className="subtle-semibold lg:small-regular ">
+                    {post?.location}
+                  </p>
+                </div>
               </div>
-            </div>
+            </Link>
           </div>
         </div>
       )}
