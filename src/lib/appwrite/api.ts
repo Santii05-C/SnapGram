@@ -1,6 +1,6 @@
 import { ID, Query } from "appwrite";
 
-import { INewPost, INewUser } from "@/types";
+import { INewPost, INewUser, IUpdatePost } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
 
 export async function createUserAccount(user: INewUser) {
@@ -163,7 +163,7 @@ export async function uploadFile(file: File) {
   }
 }
 
-export function getFilePreview(fileId: string) {
+export function getFilePreview(fileId: string): string {
   try {
     const fileUrl = storage.getFilePreview(
       appwriteConfig.storageId,
@@ -174,9 +174,14 @@ export function getFilePreview(fileId: string) {
       100
     );
 
+    if (!fileUrl) {
+      throw new Error("No se pudo obtener el URL del archivo.");
+    }
+
     return fileUrl;
   } catch (error) {
     console.log(error);
+    throw new Error("Error al obtener la vista previa del archivo.");
   }
 }
 
@@ -264,6 +269,59 @@ export async function getPostById(postId: string) {
       postId
     );
     return post;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function updatePost(post: IUpdatePost) {
+  const hasFileToUpdate = post.file.length > 0;
+
+  try {
+    let image = {
+      imageUrl: post.imageUrl,
+      imageId: post.imageId,
+    };
+
+    if (hasFileToUpdate) {
+      //Upload image to storage
+      const uploadedFile = await uploadFile(post.file[0]);
+      if (!uploadedFile) throw Error;
+
+      //Get file url
+      const fileUrl = getFilePreview(uploadedFile.$id);
+
+      if (!fileUrl) {
+        deleteFile(uploadedFile.$id);
+        throw new Error("No se pudo obtener la URL del archivo subido.");
+      }
+
+      image = { ...image, imageUrl: fileUrl, imageId: uploadedFile.$id };
+    }
+
+    //Convert tags in an array
+    const tags = post.tags?.replace(/ /g, "").split(",") || [];
+
+    //Save post to database
+    const updatedPost = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.postCollectionId,
+      post.postId,
+      {
+        caption: post.caption,
+        imageUrl: image.imageUrl,
+        imageId: image.imageId,
+        location: post.location,
+        tags: tags,
+      }
+    );
+
+    if (!updatedPost) {
+      await deleteFile(post.imageId);
+      throw Error;
+    }
+
+    return updatedPost;
   } catch (error) {
     console.log(error);
   }
