@@ -6,12 +6,12 @@ import GridPostList from "./GridPostList";
 const Explore = () => {
   const [searchValue, setSearchValue] = useState("");
 
-  const posts = [];
+  // const posts = [];
 
-  const shouldShowSearchResults = searchValue !== "";
-  const shouldShowPosts =
-    !shouldShowSearchResults &&
-    posts.pages.every((item) => item.documents.lenght === 0);
+  // const shouldShowSearchResults = searchValue !== "";
+  // const shouldShowPosts =
+  //   !shouldShowSearchResults &&
+  //   posts.pages.every((item) => item.documents.lenght === 0);
 
   return (
     <div className="explore-container">
