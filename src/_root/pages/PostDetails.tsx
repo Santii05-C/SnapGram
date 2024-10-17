@@ -9,8 +9,9 @@ import {
   useGetPostById,
   useGetUserPosts,
 } from "@/lib/react-query/queriesAndMutations";
-import GridPostList from "./GridPostList";
+
 import PostStatus from "@/components/shared/PostStatus";
+import GridPostList from "@/components/shared/GridPostList";
 
 const PostDetails = () => {
   const navigate = useNavigate();

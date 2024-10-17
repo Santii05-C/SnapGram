@@ -10,12 +10,12 @@ import {
   useGetCurrentUser,
 } from "@/lib/react-query/queriesAndMutations";
 
-type PostStatsProps = {
+type PostStatusProps = {
   post: Models.Document;
   userId: string;
 };
 
-const PostStats = ({ post, userId }: PostStatsProps) => {
+const PostStatus = ({ post, userId }: PostStatusProps) => {
   const location = useLocation();
   const likesList = post.likes.map((user: Models.Document) => user.$id);
 
@@ -29,7 +29,7 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
   const { data: currentUser } = useGetCurrentUser();
 
   const savedPostRecord = currentUser?.save.find(
-    (record: Models.Document) => record.post.$id === post.$id
+    (record: Models.Document) => record.$id === post.$id
   );
 
   useEffect(() => {
@@ -105,4 +105,4 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
   );
 };
 
-export default PostStats;
+export default PostStatus;
