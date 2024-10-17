@@ -11,9 +11,10 @@ import { LikedPost } from "@/_root/pages";
 import { useUserContext } from "@/context/AuthContext";
 
 import Loader from "@/components/shared/Loader";
-import GridPostList from "./GridPostList";
+
 import { Button } from "@/components/ui/button";
 import { useGetUserById } from "@/lib/react-query/queriesAndMutations";
+import GridPostList from "@/components/shared/GridPostList";
 
 interface StabBlockProps {
   value: string | number;
