@@ -295,7 +295,9 @@ export async function updatePost(post: IUpdatePost) {
       if (!uploadedFile) throw Error;
 
       //Get file url
-      const fileUrl = getFilePreview(uploadedFile.$id);
+      // const fileUrl = getFilePreview(uploadedFile.$id);
+
+      const fileUrl = new URL(getFilePreview(uploadedFile.$id));
 
       if (!fileUrl) {
         deleteFile(uploadedFile.$id);
