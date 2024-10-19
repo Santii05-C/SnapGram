@@ -20,16 +20,15 @@ const PostDetails = () => {
 
   const { data: post, isLoading } = useGetPostById(id);
   const { data: userPosts, isLoading: isUserPostLoading } = useGetUserPosts(
-    post?.creator.$id
+    post?.creator.$id || ""
   );
   const { mutate: deletePost } = useDeletePost();
 
-  const relatedPosts = userPosts?.documents.filter(
-    (userPost) => userPost.$id !== id
-  );
+  const relatedPosts =
+    userPosts?.documents.filter((userPost) => userPost.$id !== id) || [];
 
   const handleDeletePost = () => {
-    deletePost({ postId: id, imageId: post?.imageId });
+    deletePost({ postId: id, imageId: post?.imageId || "" });
     navigate(-1);
   };
 
