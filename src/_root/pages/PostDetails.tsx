@@ -28,6 +28,15 @@ const PostDetails = () => {
     userPosts?.documents.filter((userPost) => userPost.$id !== id) || [];
 
   const handleDeletePost = () => {
+    if (!post || !post.imageId) {
+      console.error("Post or imageId is undefined");
+      return;
+    }
+    if (!id) {
+      console.error("Post ID is undefined");
+      return;
+    }
+
     deletePost({ postId: id, imageId: post?.imageId || "" });
     navigate(-1);
   };
