@@ -12,9 +12,26 @@ import {
 } from "@/lib/react-query/queriesAndMutations";
 import GridPostList from "@/components/shared/GridPostList";
 
+// Definir o importar el tipo Post
+type Post = {
+  $id: string;
+  caption: string;
+  imageUrl?: string;
+  location?: string;
+  tags?: string[];
+  $createdAt: string;
+  $updatedAt: string;
+};
+
+export type PostPage = {
+  documents: Post[]; // Lista de posts
+  total: number; // Total de posts
+  limit: number; // Límite de posts por página
+};
+
 export type SearchResultProps = {
   isSearchFetching: boolean;
-  searchedPosts: any;
+  searchedPosts: PostPage | undefined; // searchedPosts puede ser undefined
 };
 
 const SearchResults = ({
@@ -23,7 +40,7 @@ const SearchResults = ({
 }: SearchResultProps) => {
   if (isSearchFetching) {
     return <Loader />;
-  } else if (searchedPosts && searchedPosts.documents.length > 0) {
+  } else if (searchedPosts?.documents && searchedPosts.documents.length > 0) {
     return <GridPostList posts={searchedPosts.documents} />;
   } else {
     return (
@@ -40,6 +57,8 @@ const Explore = () => {
   const debouncedSearch = useDebounce(searchValue, 500);
   const { data: searchedPosts, isFetching: isSearchFetching } =
     useSearchPosts(debouncedSearch);
+
+  console.log(posts);
 
   useEffect(() => {
     if (inView && !searchValue) {
